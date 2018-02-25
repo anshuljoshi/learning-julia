@@ -286,5 +286,112 @@ Family(2, String["husband", "wife"])
 ### Modules & Interfaces
 
 # create a module
+julia> module MyModule
+           foo=10
+           bar=20
+           function baz()
+               "baz"
+           end
+           function qux()
+               "qux"
+           end
+           export foo, baz
+           end
+MyModule
+
+julia> import MyModule
+
+julia> MyModule.bar
+20
+
+julia> MyModule.baz()
+"baz"
+
+julia> MyModule.foo
+10
+
+julia> MyModule.qux()
+"qux"
+
+
+# Including files in modules
+# this can be done by using the function include
+# open the shell using ; and then creat file by the name transformations.jl
+# put say_hello function inside the file
+
+shell> cat transformations.jl
+function say_hello(name:: String)
+	"hello, $name"
+end
+
+# now include this file
+julia> include("transformations.jl")
+say_hello (generic function with 1 method)
+
+julia> say_hello("rahul")
+"hello, rahul"
+
+
+
+### Module precompilation
+
+# without precompilation
+module Samplecode
+
+export sum_of_numbers
+
+sum_of_numbers = 0
+for num in 1:1000000000
+	sum_of_numbers += num
+end
+
+end
+
+# With precompilation
+__precompile__()
+module Samplecode
+
+export sum_of_numbers
+
+sum_of_numbers = 0
+for num in 1:1000000000
+	sum_of_numbers += num
+end
+
+end
+
+
+
+### Multiple dispatch revisited
+
+julia> type Coordinate{T}
+           x::T
+           y::T
+           z::T
+       end
+
+julia> function calc_sum(value::Coordinate{Int64})
+           value.x + value.y + value.z
+       end
+calc_sum (generic function with 1 method)
+
+julia> function calc_sum(value::Coordinate{Float64})
+                  value.x + value.y + value.z
+       end
+calc_sum (generic function with 2 methods)
+
+# we use the function methods to know the available method signatures
+julia> methods(calc_sum)
+# 2 methods for generic function "calc_sum":
+calc_sum(value::Coordinate{Float64}) in Main at REPL[41]:2
+calc_sum(value::Coordinate{Int64}) in Main at REPL[40]:2
+
+julia> calc_sum(Coordinate(1,2,3))
+6
+julia> calc_sum(Coordinate(1.0,2.0,3.0))
+6.0
+
+
+
 
 
