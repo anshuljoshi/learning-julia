@@ -1,5 +1,5 @@
 # Learning Julia :bell:
-Code repository for book - Learning Julia
+Code repository for book - [Learning Julia](https://www.amazon.in/Learning-Julia-high-performance-applications-scientific-ebook/dp/B01MYRGB3O)
 
 ## Next Steps
 * Contribute to the Julia community.
